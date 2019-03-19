@@ -1,0 +1,18 @@
+server:
+  port: 8082
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.lob.non_contextual_creation: true
+  datasource:
+    url: jdbc:postgresql://dbHost:5432/dbName
+    username: dbUsername
+    password: dbPassword
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+
