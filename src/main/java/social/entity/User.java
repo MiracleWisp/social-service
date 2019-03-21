@@ -1,7 +1,7 @@
 package social.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,7 +20,8 @@ public class User {
     @Column(name = "username")
     private String username;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "participants")
     List<Chat> chats;
 
