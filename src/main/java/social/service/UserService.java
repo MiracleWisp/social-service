@@ -13,7 +13,7 @@ public class UserService {
 
 
     public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsernameIgnoreCase(username);
     }
 
     public void saveUser(User user) {
