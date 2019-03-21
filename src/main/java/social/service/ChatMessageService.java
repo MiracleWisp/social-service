@@ -12,8 +12,8 @@ public class ChatMessageService {
     @Autowired
     ChatMessageRepository chatMessageRepository;
 
-    public void saveChatMessage(ChatMessage chatMessage){
+    public ChatMessage saveChatMessage(ChatMessage chatMessage) {
         chatMessage.setSendTime(new Date());
-        chatMessageRepository.save(chatMessage);
+        return chatMessageRepository.save(chatMessage);
     }
 }

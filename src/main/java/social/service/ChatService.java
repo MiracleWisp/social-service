@@ -16,8 +16,8 @@ public class ChatService {
         return chatRepository.findByChatId(chatId);
     }
 
-    public void saveChat(Chat chat) {
-        chatRepository.save(chat);
+    public Chat saveChat(Chat chat) {
+        return chatRepository.save(chat);
     }
 
 }
