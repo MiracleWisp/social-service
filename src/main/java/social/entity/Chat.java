@@ -34,7 +34,8 @@ public class Chat {
     @ElementCollection
     @CollectionTable(
             name = "tracks",
-            joinColumns = @JoinColumn(name = "chat_id")
+            joinColumns = @JoinColumn(name = "chat_id"),
+            uniqueConstraints= @UniqueConstraint(columnNames={"track"})
     )
     @Column(name = "track")
     List<Integer> playlist = new ArrayList<>();
