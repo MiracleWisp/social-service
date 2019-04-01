@@ -14,8 +14,6 @@ import social.service.ChatMessageService;
 import social.service.ChatService;
 import social.service.UserService;
 
-import java.util.Date;
-
 @Controller
 public class ChatMessageController {
 
@@ -30,24 +28,12 @@ public class ChatMessageController {
 
     @MessageMapping("/chat/{chatId}/sendMessage")
     @SendTo("/topic/{chatId}")
-    public String sendMessage(@DestinationVariable Integer chatId, @Payload String textMessage, SimpMessageHeaderAccessor accessor) {
+    public ChatMessage sendMessage(@DestinationVariable Integer chatId, @Payload String textMessage, SimpMessageHeaderAccessor accessor) {
         Chat chat = chatService.findChatByChatId(chatId);
         System.out.println(accessor.getUser().getName());
         User user = userService.findUserByUsername(accessor.getUser().getName());
-        ChatMessage chatMessage = ChatMessage.builder()
-                .chat(chat)
-                .content(textMessage)
-                .sender(user)
-                .type(ChatMessage.MessageType.CHAT)
-                .sendTime(new Date()).build();
-        chatMessageService.saveChatMessage(chatMessage);
-        return textMessage;
-    }
-
-    /*@MessageMapping("/chat/{chatId}/addUser")
-    @SendTo("/topic/{chatId}")
-    public String addUser(@DestinationVariable String chatId, @Payload String chatMessage,
-                          SimpMessageHeaderAccessor headerAccessor) {
+        ChatMessage chatMessage = new ChatMessage(user, textMessage, chat, ChatMessage.MessageType.CHAT);
+        chatMessage = chatMessageService.saveChatMessage(chatMessage);
         return chatMessage;
-    }*/
+    }
 }

@@ -1,13 +1,11 @@
 package social.entity;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
-@Builder
 @Entity
 @Table(name = "messages")
 public class ChatMessage {
@@ -17,6 +15,14 @@ public class ChatMessage {
         CHAT,
         JOIN,
         LEAVE
+    }
+
+    public ChatMessage(User sender, String content, Chat chat, MessageType type){
+        this.sender = sender;
+        this.content = content;
+        this.chat = chat;
+        this.type = type;
+        this.sendTime = new Date();
     }
 
     @Id
