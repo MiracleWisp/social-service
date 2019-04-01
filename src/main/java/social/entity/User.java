@@ -23,7 +23,7 @@ public class User {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "participants")
-    List<Chat> chats;
+    private List<Chat> chats;
 
 
 }

@@ -19,16 +19,16 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatId")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    Integer chatId;
+    private Integer chatId;
 
     @NotEmpty
     @NotNull
     @Column(name = "chatName")
-    String chatName;
+    private String chatName;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @OneToOne
-    User owner;
+    private User owner;
 
     @JsonIgnore
     @ElementCollection
@@ -38,16 +38,16 @@ public class Chat {
             uniqueConstraints= @UniqueConstraint(columnNames={"track"})
     )
     @Column(name = "track")
-    List<Integer> playlist = new ArrayList<>();
+    private List<Integer> playlist = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "USER_CHAT",
             joinColumns = {@JoinColumn(name = "chatId")},
             inverseJoinColumns = {@JoinColumn(name = "username")})
-    List<User> participants;
+    private List<User> participants;
 
     @JsonIgnore
     @OneToMany(mappedBy = "chat")
-    List<ChatMessage> messages;
+    private List<ChatMessage> messages;
 }
