@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import social.dto.Response;
 import social.entity.Chat;
+import social.entity.ChatMessage;
 import social.entity.User;
+import social.service.ChatMessageService;
 import social.service.ChatService;
 import social.service.UserService;
 
@@ -20,6 +23,12 @@ public class ChatParticipantsController {
 
     @Autowired
     ChatService chatService;
+
+    @Autowired
+    ChatMessageService chatMessageService;
+
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @GetMapping
     public ResponseEntity<?> getChatParticipants(@PathVariable("chatId") Integer chatId,
@@ -63,6 +72,12 @@ public class ChatParticipantsController {
         }
         chat.getParticipants().add(addUser);
         chat = chatService.saveChat(chat);
+        String inviteString = currentUser.getUsername() + " добавил(а) " + addUser.getUsername() + " в чат";
+        ChatMessage chatMessage = chatMessageService.saveChatMessage(
+                new ChatMessage(currentUser, inviteString, chat, ChatMessage.MessageType.JOIN));
+
+        template.convertAndSend("/topic/" + chatId, chatMessage);
+
         return ResponseEntity.ok(new Response(true, chat.getParticipants()));
     }
 
@@ -76,6 +91,7 @@ public class ChatParticipantsController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new Response(false, "Chat does not exist"));
         }
+
         User currentUser = userService.findUserByUsername(username);
         User removeUser = userService.findUserByUsername(user.getUsername());
 
@@ -84,11 +100,13 @@ public class ChatParticipantsController {
                     .status(HttpStatus.FORBIDDEN)
                     .body(new Response(false, "You are not chat owner"));
         }
+
         if (removeUser == null) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(new Response(false, "User not found"));
         }
+
         if (!chat.getParticipants().contains(removeUser)) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -96,6 +114,14 @@ public class ChatParticipantsController {
         }
         chat.getParticipants().remove(removeUser);
         chat = chatService.saveChat(chat);
+
+        String removeString = currentUser.equals(removeUser) ?
+                currentUser.getUsername() + " покинул(а) чат " :
+                currentUser.getUsername() + " удалил(а) " + removeUser.getUsername() + " из чата";
+        ChatMessage chatMessage = chatMessageService.saveChatMessage(
+                new ChatMessage(currentUser, removeString, chat, ChatMessage.MessageType.LEAVE));
+        template.convertAndSend("/topic/" + chatId, chatMessage);
+
         return ResponseEntity.ok(new Response(true, chat.getParticipants()));
     }
 }

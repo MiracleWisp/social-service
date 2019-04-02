@@ -38,8 +38,6 @@ public class MessageInterceptor implements ChannelInterceptor {
     }
 
     private boolean validateSubscription(Principal principal, String topicDestination) {
-        System.out.println("topic here |||");
-        System.out.println(topicDestination);
         if (principal == null) {
             return false;
         }
