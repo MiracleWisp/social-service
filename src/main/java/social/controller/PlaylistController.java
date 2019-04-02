@@ -28,11 +28,6 @@ public class PlaylistController {
                                              @RequestHeader(value = "username") String username) {
 
         Chat chat = chatService.findChatByChatId(chatId);
-        if (chat == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new Response(false, "Chat does not exist"));
-        }
         User currentUser = userService.findUserByUsername(username);
         if (!chat.getParticipants().contains(currentUser)) {
             return ResponseEntity
@@ -47,11 +42,6 @@ public class PlaylistController {
                                                     @PathVariable("chatId") Integer chatId,
                                                     @RequestHeader(value = "username") String username) {
         Chat chat = chatService.findChatByChatId(chatId);
-        if (chat == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new Response(false, "Chat does not exist"));
-        }
         User currentUser = userService.findUserByUsername(username);
         if (!chat.getParticipants().contains(currentUser)) {
             return ResponseEntity
@@ -74,11 +64,6 @@ public class PlaylistController {
                                                     @PathVariable("chatId") Integer chatId,
                                                     @RequestHeader(value = "username") String username) {
         Chat chat = chatService.findChatByChatId(chatId);
-        if (chat == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new Response(false, "Chat does not exist"));
-        }
         User currentUser = userService.findUserByUsername(username);
         if (!chat.getOwner().equals(currentUser)) {
             return ResponseEntity

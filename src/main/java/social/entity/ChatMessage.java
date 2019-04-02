@@ -1,12 +1,14 @@
 package social.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "messages")
 public class ChatMessage {
 
