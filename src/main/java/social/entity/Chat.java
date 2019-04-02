@@ -35,7 +35,7 @@ public class Chat {
     @CollectionTable(
             name = "tracks",
             joinColumns = @JoinColumn(name = "chat_id"),
-            uniqueConstraints= @UniqueConstraint(columnNames={"track"})
+            uniqueConstraints = @UniqueConstraint(columnNames = {"track"})
     )
     @Column(name = "track")
     private List<Integer> playlist = new ArrayList<>();
@@ -44,7 +44,8 @@ public class Chat {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "USER_CHAT",
             joinColumns = {@JoinColumn(name = "chatId")},
-            inverseJoinColumns = {@JoinColumn(name = "username")})
+            inverseJoinColumns = {@JoinColumn(name = "username")},
+            uniqueConstraints = @UniqueConstraint(name = "UK_participants", columnNames = {"chatId", "username"}))
     private List<User> participants;
 
     @JsonIgnore
