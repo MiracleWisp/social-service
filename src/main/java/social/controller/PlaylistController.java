@@ -18,10 +18,10 @@ import social.service.UserService;
 public class PlaylistController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ChatService chatService;
+    private ChatService chatService;
 
     @GetMapping
     public ResponseEntity<?> getChatPlaylist(@PathVariable("chatId") Integer chatId,

@@ -19,13 +19,13 @@ import social.service.UserService;
 @EnableAutoConfiguration
 public class ChatParticipantsController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ChatService chatService;
+    private ChatService chatService;
 
     @Autowired
-    ChatMessageService chatMessageService;
+    private ChatMessageService chatMessageService;
 
     @Autowired
     private SimpMessagingTemplate template;

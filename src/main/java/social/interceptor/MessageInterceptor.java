@@ -1,4 +1,4 @@
-package social.config;
+package social.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -18,10 +18,10 @@ import java.security.Principal;
 public class MessageInterceptor implements ChannelInterceptor {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ChatService chatService;
+    private ChatService chatService;
 
 
     @Override

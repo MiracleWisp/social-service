@@ -18,13 +18,13 @@ import social.service.UserService;
 public class ChatMessageController {
 
     @Autowired
-    ChatMessageService chatMessageService;
+    private ChatMessageService chatMessageService;
 
     @Autowired
-    ChatService chatService;
+    private ChatService chatService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @MessageMapping("/chat/{chatId}/sendMessage")
     @SendTo("/topic/{chatId}")

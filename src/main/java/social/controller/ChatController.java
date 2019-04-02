@@ -18,10 +18,10 @@ import java.util.ArrayList;
 public class ChatController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ChatService chatService;
+    private ChatService chatService;
 
     @GetMapping
     public ResponseEntity<?> getUserChats(@RequestHeader(value = "username") String username) {

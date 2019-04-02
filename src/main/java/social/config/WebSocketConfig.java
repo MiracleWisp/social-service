@@ -8,16 +8,18 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import social.interceptor.JwtChannelInterceptor;
+import social.interceptor.MessageInterceptor;
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Autowired
-    JwtChannelInterceptor jwtChannelInterceptor;
+    private JwtChannelInterceptor jwtChannelInterceptor;
 
     @Autowired
-    MessageInterceptor messageInterceptor;
+    private MessageInterceptor messageInterceptor;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

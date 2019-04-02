@@ -8,7 +8,7 @@ import social.repository.ChatMessageRepository;
 @Service("chatMessageService")
 public class ChatMessageService {
     @Autowired
-    ChatMessageRepository chatMessageRepository;
+    private ChatMessageRepository chatMessageRepository;
 
     public ChatMessage saveChatMessage(ChatMessage chatMessage) {
         return chatMessageRepository.save(chatMessage);
