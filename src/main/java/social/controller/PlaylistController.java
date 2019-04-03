@@ -1,7 +1,6 @@
 package social.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import social.service.UserService;
 
 @RestController
 @RequestMapping("/chats/{chatId}/playlist")
-@EnableAutoConfiguration
 public class PlaylistController {
 
     @Autowired

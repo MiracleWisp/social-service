@@ -1,7 +1,6 @@
 package social.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -16,7 +15,6 @@ import social.service.UserService;
 
 @RestController
 @RequestMapping("/chats/{chatId}/participants")
-@EnableAutoConfiguration
 public class ChatParticipantsController {
     @Autowired
     private UserService userService;
