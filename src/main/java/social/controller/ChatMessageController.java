@@ -1,39 +1,43 @@
 package social.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import social.dto.Response;
 import social.entity.Chat;
-import social.entity.ChatMessage;
 import social.entity.User;
 import social.service.ChatMessageService;
 import social.service.ChatService;
 import social.service.UserService;
 
-@Controller
+import java.util.Date;
+
+@RestController
+@RequestMapping("/chats/{chatId}/messages")
 public class ChatMessageController {
 
     @Autowired
-    private ChatMessageService chatMessageService;
+    private UserService userService;
 
     @Autowired
     private ChatService chatService;
 
     @Autowired
-    private UserService userService;
+    ChatMessageService chatMessageService;
 
-    @MessageMapping("/chat/{chatId}/sendMessage")
-    @SendTo("/topic/{chatId}")
-    public ChatMessage sendMessage(@DestinationVariable Integer chatId, @Payload String textMessage, SimpMessageHeaderAccessor accessor) {
+    @GetMapping
+    public ResponseEntity<?> getChatMessages(@RequestHeader(value = "username") String username,
+                                             @PathVariable("chatId") Integer chatId,
+                                             @RequestParam(value ="since", required = false) Long since) {
+        User currentUser = userService.findUserByUsername(username);
+        Date sinceDate = (since != null) ? new Date(since) : new Date();
         Chat chat = chatService.findChatByChatId(chatId);
-        System.out.println(accessor.getUser().getName());
-        User user = userService.findUserByUsername(accessor.getUser().getName());
-        ChatMessage chatMessage = new ChatMessage(user, textMessage, chat, ChatMessage.MessageType.CHAT);
-        chatMessage = chatMessageService.saveChatMessage(chatMessage);
-        return chatMessage;
+        if (!chat.getParticipants().contains(currentUser)) {
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(new Response(false, "You are not in this chat"));
+        }
+        return ResponseEntity.status(200).body(new Response(true, chatMessageService.getPreviousMessages(sinceDate, chat)));
     }
 }
