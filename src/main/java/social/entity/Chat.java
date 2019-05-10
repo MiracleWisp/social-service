@@ -7,7 +7,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,14 +30,7 @@ public class Chat {
     private User owner;
 
     @JsonIgnore
-    @ElementCollection
-    @CollectionTable(
-            name = "tracks",
-            joinColumns = @JoinColumn(name = "chat_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"track"})
-    )
-    @Column(name = "track")
-    private List<Integer> playlist = new ArrayList<>();
+    private String TrackListId;
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

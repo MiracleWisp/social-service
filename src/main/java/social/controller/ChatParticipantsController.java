@@ -9,6 +9,7 @@ import social.dto.Response;
 import social.entity.Chat;
 import social.entity.ChatMessage;
 import social.entity.User;
+import social.feign.MusicClient;
 import social.service.ChatMessageService;
 import social.service.ChatService;
 import social.service.UserService;
@@ -27,6 +28,9 @@ public class ChatParticipantsController {
 
     @Autowired
     private SimpMessagingTemplate template;
+
+    @Autowired
+    private MusicClient musicClient;
 
     @GetMapping
     public ResponseEntity<?> getChatParticipants(@PathVariable("chatId") Integer chatId,
@@ -59,6 +63,7 @@ public class ChatParticipantsController {
                     .body(new Response(false, "User not found"));
         }
         chat.getParticipants().add(addUser);
+        musicClient.addUserToTrackList(chat.getTrackListId(), addUser.getUsername());
         chat = chatService.saveChat(chat);
         String inviteString = currentUser.getUsername() + " добавил(а) " + addUser.getUsername() + " в чат";
         ChatMessage chatMessage = chatMessageService.saveChatMessage(
@@ -96,6 +101,7 @@ public class ChatParticipantsController {
                     .body(new Response(false, "User not in this chat"));
         }
         chat.getParticipants().remove(removeUser);
+        musicClient.removeUserToTrackList(chat.getTrackListId(), removeUser.getUsername());
         chat = chatService.saveChat(chat);
 
         String removeString = currentUser.equals(removeUser) ?
