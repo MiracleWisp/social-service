@@ -21,7 +21,7 @@ public class ChatExistInterceptor extends HandlerInterceptorAdapter {
         final Map<String, String> pathVariables = (Map<String, String>) request
                 .getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         Integer chatId = Integer.parseInt(pathVariables.get("chatId"));
-        System.out.println(chatId);
+        if(chatId == 0) return true;
         Chat chat = chatService.findChatByChatId(chatId);
         if (chat == null) {
             response.setStatus(404);

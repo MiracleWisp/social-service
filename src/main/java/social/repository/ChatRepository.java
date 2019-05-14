@@ -5,4 +5,5 @@ import social.entity.Chat;
 
 public interface ChatRepository extends JpaRepository<Chat, Integer> {
     Chat findByChatId(Integer chatId);
+    Chat findOneByTrackListId(String trackListId);
 }

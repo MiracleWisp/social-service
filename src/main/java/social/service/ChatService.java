@@ -20,5 +20,9 @@ public class ChatService {
         return chatRepository.save(chat);
     }
 
+    public Chat findByTrackListId(String trackListId) {
+        return chatRepository.findOneByTrackListId(trackListId);
+    }
+
 }
 

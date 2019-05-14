@@ -16,7 +16,9 @@ public class ChatMessage {
     public enum MessageType {
         CHAT,
         JOIN,
-        LEAVE
+        LEAVE,
+        ADD_TRACK,
+        DELETE_TRACK
     }
 
     public ChatMessage(User sender, String content, Chat chat, MessageType type){

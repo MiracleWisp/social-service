@@ -29,8 +29,8 @@ public class Chat {
     @OneToOne
     private User owner;
 
-    @JsonIgnore
-    private String TrackListId;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String trackListId;
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
